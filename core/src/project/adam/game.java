@@ -31,15 +31,12 @@ public class game extends ApplicationAdapter {
         batch.begin();
         batch.draw(img, 0, 0);
         batch.end();
-        Gdx.gl.glClearColor(0, 0, 0.2f, 1);
-        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-        camera.update();
+        //scamera.update();
         //batch.setProjectionMatrix(camera.combined);
 
-        sr.begin(ShapeRenderer.ShapeType.Filled);
-        sr.setColor(0, 1, 0, 1);
-        battle.render(sr);
-        sr.end();
+        //sr.begin(ShapeRenderer.ShapeType.Filled);
+       // sr.setColor(0, 1, 0, 1);
+        //sr.end();
 
     }
 
