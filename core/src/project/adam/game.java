@@ -17,27 +17,35 @@ public class game extends ApplicationAdapter {
     ShapeRenderer sr;
     BitmapFont font;
     OrthographicCamera camera;
-
+    Player player;
+    
     @Override
     public void create() {
         batch = new SpriteBatch();
-        img = new Texture("badlogic.jpg");
+        sr = new ShapeRenderer();
+        player = new Player(100,100);
     }
 
     @Override
     public void render() {
-        Gdx.gl.glClearColor(1, 0, 0, 1);
+        update();
+        Gdx.gl.glClearColor(1, 1, 1, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         batch.begin();
-        batch.draw(img, 0, 0);
         batch.end();
         //scamera.update();
         //batch.setProjectionMatrix(camera.combined);
 
-        //sr.begin(ShapeRenderer.ShapeType.Filled);
-       // sr.setColor(0, 1, 0, 1);
-        //sr.end();
+        sr.begin(ShapeRenderer.ShapeType.Filled);
+        sr.setColor(0, 1, 0, 1);
+        player.simple_render(sr);
+        sr.end();
 
+    }
+    
+    public void update()
+    {
+        player.update();
     }
 
     public void dispose() {
