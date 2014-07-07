@@ -7,13 +7,6 @@
 package project.adam;
 
 
-
-/**
- *
- * Wilson likes to fuck cats
- */
 public class Floor {
-    
-    System.out.println("Wilson Likes to fuck cats");
-    
+
 }
