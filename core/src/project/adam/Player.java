@@ -30,7 +30,28 @@ public class Player extends Actor {
         handle_Input();
         if(moving_left) x = x - vx;
         if(moving_right) x = x + vx;
+        if(!grounded)
+        {
+            y = y - vy;
+            if(vy < 3)
+            {
+                vy+=.01;
+            }
+        }
+        else
+        {
+            vy = 0;
+        }
+       
+        grounded = false;
+        
+        if(y+height < 0)
+        {
+            y = Gdx.graphics.getHeight();
+        }
         super.update();
+        
+        
         
     }
 
@@ -65,15 +86,24 @@ public class Player extends Actor {
     {
         if(a instanceof Floor)
         {
+            if(collide_down(a))
+            {
+                y = a.y + a.height;
+                grounded = true;
+                super.update();
+            }
             if(collide_right(a))
             {
                 x = a.x - width;
+                super.update();
             }
             if(collide_left(a))
             {
                 x = a.x + a.width;
+                super.update();
             }
-            super.update();
+            
+            
         }
         
     }

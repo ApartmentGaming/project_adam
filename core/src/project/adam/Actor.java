@@ -17,12 +17,12 @@ import com.badlogic.gdx.math.Rectangle;
  */
 public class Actor {
     
-    int x;
-    int y;
+    float x;
+    float y;
     int height;
     int width;
-    int vx;
-    int vy;
+    float vx;
+    float vy;
     Texture sprite;
     Rectangle bounds;
     
