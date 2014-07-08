@@ -7,6 +7,8 @@ package project.adam;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
+import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 
 /**
  *
@@ -14,9 +16,13 @@ import com.badlogic.gdx.Input.Keys;
  */
 public class Player extends Actor {
 
+    public boolean grounded = false;
+    public boolean jumping = false;
+    
     public Player(int a, int b) {
         super(a, b);
-        vx = 2;
+        vx = 5;
+        vy = 0;
     }
 
     public void update() {
@@ -26,14 +32,6 @@ public class Player extends Actor {
         if(moving_right) x = x + vx;
         super.update();
         
-        if(x < 0)
-        {
-            x = 0;
-        }
-        if(x + width > Gdx.graphics.getWidth())
-        {
-            x = Gdx.graphics.getWidth() - width;
-        }
     }
 
     boolean moving_left = false;
@@ -54,6 +52,30 @@ public class Player extends Actor {
         } else {
             moving_right = false;
         }
+        
+    }
+    
+    public void simple_render(ShapeRenderer sr)
+    {
+        sr.setColor(Color.RED);
+        super.simple_render(sr);
+    }
+    
+    public void collision(Actor a)
+    {
+        if(a instanceof Floor)
+        {
+            if(collide_right(a))
+            {
+                x = a.x - width;
+            }
+            if(collide_left(a))
+            {
+                x = a.x + a.width;
+            }
+            super.update();
+        }
+        
     }
 
 }

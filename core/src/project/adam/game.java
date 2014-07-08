@@ -8,6 +8,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import java.util.ArrayList;
 
 public class game extends ApplicationAdapter {
 
@@ -18,12 +19,16 @@ public class game extends ApplicationAdapter {
     BitmapFont font;
     OrthographicCamera camera;
     Player player;
+    ArrayList<Floor> floors;
     
     @Override
     public void create() {
         batch = new SpriteBatch();
         sr = new ShapeRenderer();
         player = new Player(100,100);
+        floors = new ArrayList<Floor>();
+        floors.add(new Floor(50,100));
+        floors.add(new Floor(400,100));
     }
 
     @Override
@@ -39,13 +44,26 @@ public class game extends ApplicationAdapter {
         sr.begin(ShapeRenderer.ShapeType.Filled);
         sr.setColor(0, 1, 0, 1);
         player.simple_render(sr);
+        for(Floor f:floors)
+        {
+            f.simple_render(sr);
+        }
         sr.end();
 
     }
     
     public void update()
     {
+        
         player.update();
+        for(Floor f:floors)
+        {
+            if(f.bounds.overlaps(player.bounds))
+            {
+                player.collision(f);
+            }
+        }
+        
     }
 
     public void dispose() {

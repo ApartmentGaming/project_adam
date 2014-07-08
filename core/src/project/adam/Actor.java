@@ -51,7 +51,52 @@ public class Actor {
         sp.rect(bounds.x, bounds.y, bounds.width, bounds.height);
     }
     
-    public boolean collision(Actor a){
-        return a.bounds.overlaps(bounds);
+    public boolean collide_right(Actor a){
+        if(a.bounds.contains(bounds.x+bounds.width,bounds.y)
+          || a.bounds.contains(bounds.x+bounds.width,bounds.y+bounds.height)
+          || a.bounds.contains(bounds.x+bounds.width,bounds.y+bounds.height/2))
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+    public boolean collide_left(Actor a){
+        if(a.bounds.contains(bounds.x,bounds.y)
+          || a.bounds.contains(bounds.x,bounds.y+bounds.height)
+          || a.bounds.contains(bounds.x,bounds.y+bounds.height/2))
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+    public boolean collide_down(Actor a){
+        if(a.bounds.contains(bounds.x,bounds.y)
+          || a.bounds.contains(bounds.x+width,bounds.y)
+          || a.bounds.contains(bounds.x+width/2,bounds.y))
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+    public boolean collide_up(Actor a){
+        if(a.bounds.contains(bounds.x,bounds.y+height)
+          || a.bounds.contains(bounds.x+width,bounds.y+height)
+          || a.bounds.contains(bounds.x+width/2,bounds.y+height))
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
     }
 }
