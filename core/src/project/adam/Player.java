@@ -18,41 +18,58 @@ public class Player extends Actor {
 
     public boolean grounded = false;
     public boolean jumping = false;
-    
+
     public Player(int a, int b) {
         super(a, b);
-        vx = 5;
-        vy = 0;
+        vx = 1;
+        vy = 1;
+        yspeed = 0;
+        xspeed = 5;
     }
 
     public void update() {
-
         handle_Input();
-        if(moving_left) x = x - vx;
-        if(moving_right) x = x + vx;
-        if(!grounded)
-        {
-            y = y - vy;
-            if(vy < 3)
-            {
-                vy+=.01;
-            }
+        y = y + vy*yspeed;
+        x = x + vx*xspeed;
+       
+        
+        if (moving_left) {
+            vx = -1;
+        }
+        else if (moving_right) {
+            vx = 1;
         }
         else
         {
-            vy = 0;
+            vx = 0;
         }
-       
-        grounded = false;
         
-        if(y+height < 0)
+        if(grounded)
         {
+            yspeed = 0;
+            System.out.println("grounded" + bounds.y);
+        }
+        else
+        {
+           yspeed += -.001;
+        }
+
+        grounded = false;
+
+        if(x < 0)
+        {
+            x = Gdx.graphics.getWidth() - bounds.width;
+        }
+        if(x > Gdx.graphics.getWidth())
+        {
+            x = 0;
+        }
+        if (y + height < 0) {
             y = Gdx.graphics.getHeight();
         }
+        
         super.update();
-        
-        
-        
+
     }
 
     boolean moving_left = false;
@@ -66,6 +83,7 @@ public class Player extends Actor {
         } else {
             moving_left = false;
         }
+        
         if (Gdx.input.isKeyPressed(Keys.D)) {
             if (!moving_left) {
                 moving_right = true;
@@ -74,38 +92,45 @@ public class Player extends Actor {
             moving_right = false;
         }
         
+        if (Gdx.input.isKeyPressed(Keys.W)) {
+            if(grounded)
+            {
+                yspeed = 3;
+            }
+        } 
+
     }
-    
-    public void simple_render(ShapeRenderer sr)
-    {
+
+    public void simple_render(ShapeRenderer sr) {
         sr.setColor(Color.RED);
         super.simple_render(sr);
     }
-    
-    public void collision(Actor a)
-    {
-        if(a instanceof Floor)
-        {
-            if(collide_down(a))
-            {
-                y = a.y + a.height;
+
+    public void collision(Actor a) {
+        if (a instanceof Floor) {
+            float vdist = 0;
+            float hdist = 0;
+            if (collide_down(a)) {
+                vdist = a.bounds.y + a.bounds.height - bounds.y;
+                y = y + vdist;
                 grounded = true;
                 super.update();
             }
-            if(collide_right(a))
-            {
-                x = a.x - width;
+            if (collide_right(a)) {
+                hdist = bounds.x + bounds.width - a.bounds.x;
+                x = x - hdist;
                 super.update();
             }
-            if(collide_left(a))
-            {
-                x = a.x + a.width;
+            if (collide_left(a)) {
+                hdist = a.bounds.x + a.bounds.width - bounds.x;
+                x = x + hdist;
                 super.update();
             }
-            
-            
+
+
+
         }
-        
+
     }
 
 }

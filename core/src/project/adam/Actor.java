@@ -19,6 +19,8 @@ public class Actor {
     
     float x;
     float y;
+    float xspeed = 1;
+    float yspeed = 1;
     int height;
     int width;
     float vx;
@@ -52,9 +54,8 @@ public class Actor {
     }
     
     public boolean collide_right(Actor a){
-        if(a.bounds.contains(bounds.x+bounds.width,bounds.y)
-          || a.bounds.contains(bounds.x+bounds.width,bounds.y+bounds.height)
-          || a.bounds.contains(bounds.x+bounds.width,bounds.y+bounds.height/2))
+         if(a.bounds.contains(bounds.x+bounds.width,bounds.y+bounds.height/3)
+          || a.bounds.contains(bounds.x+bounds.width,bounds.y+(bounds.height/3)*2))
         {
             return true;
         }
@@ -64,9 +65,8 @@ public class Actor {
         }
     }
     public boolean collide_left(Actor a){
-        if(a.bounds.contains(bounds.x,bounds.y)
-          || a.bounds.contains(bounds.x,bounds.y+bounds.height)
-          || a.bounds.contains(bounds.x,bounds.y+bounds.height/2))
+        if(a.bounds.contains(bounds.x,bounds.y+bounds.height/3)
+          || a.bounds.contains(bounds.x,bounds.y+(bounds.height/3)*2))
         {
             return true;
         }
@@ -76,9 +76,8 @@ public class Actor {
         }
     }
     public boolean collide_down(Actor a){
-        if(a.bounds.contains(bounds.x,bounds.y)
-          || a.bounds.contains(bounds.x+width,bounds.y)
-          || a.bounds.contains(bounds.x+width/2,bounds.y))
+        if(a.bounds.contains(bounds.x+bounds.width/3,bounds.y)
+          || a.bounds.contains(bounds.x+(width/3)*2,bounds.y))
         {
             return true;
         }
@@ -88,9 +87,8 @@ public class Actor {
         }
     }
     public boolean collide_up(Actor a){
-        if(a.bounds.contains(bounds.x,bounds.y+height)
-          || a.bounds.contains(bounds.x+width,bounds.y+height)
-          || a.bounds.contains(bounds.x+width/2,bounds.y+height))
+        if(a.bounds.contains(bounds.x+bounds.width/3,bounds.y+bounds.height)
+          || a.bounds.contains(bounds.x+(width/3)*2,bounds.y+bounds.height))
         {
             return true;
         }

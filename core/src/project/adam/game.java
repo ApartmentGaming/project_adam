@@ -27,8 +27,20 @@ public class game extends ApplicationAdapter {
         sr = new ShapeRenderer();
         player = new Player(100,100);
         floors = new ArrayList<Floor>();
-        floors.add(new Floor(50,100));
-        floors.add(new Floor(400,100));
+        
+        boolean dummy = false;
+        for(int i = 0; i < Gdx.graphics.getWidth(); i+=30)
+        {
+            if(dummy)
+            {
+                dummy = false;
+                floors.add(new Floor(i,100));
+            }
+            else
+            {
+                dummy = true;
+            }
+        }
     }
 
     @Override
