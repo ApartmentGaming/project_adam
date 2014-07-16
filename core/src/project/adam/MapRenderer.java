@@ -1,0 +1,75 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package project.adam;
+
+import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.FPSLogger;
+import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.glutils.ImmediateModeRenderer20;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
+import com.badlogic.gdx.math.Vector3;
+
+/**
+ *
+ * @author Wilson
+ */
+public class MapRenderer {
+
+    Map map;
+    OrthographicCamera cam;
+    ImmediateModeRenderer20 renderer = new ImmediateModeRenderer20(false, true, 0);
+    ShapeRenderer shaperenderer = new ShapeRenderer();
+    FPSLogger fps = new FPSLogger();
+
+    public MapRenderer(Map map) {
+        this.map = map;
+        this.cam = new OrthographicCamera(24, 16);
+        //this.cam.position.set(map.player.pos.x, map.player.pos.y, 0);
+    }
+
+    float stateTime = 0;
+    Vector3 lerpTarget = new Vector3();
+
+    public void render(float deltaTime) {
+        
+        //cam.position.lerp(lerpTarget.set(map.player.pos.x, map.player.pos.y, 0), 2f * deltaTime);
+        cam.update();
+        stateTime += deltaTime;
+        //shaperenderer.setProjectionMatrix(cam.combined);
+        shaperenderer.begin(ShapeType.Filled);
+        //renderPlayer();
+        
+        for(int x = 0; x < map.tiles.length; x++)
+        {
+            for(int y = 0; y < map.tiles[0].length; y++)
+            {
+                if(map.tiles[x][y] == 0)
+                {
+                    shaperenderer.setColor(Color.WHITE);
+                }
+                else
+                {
+                    shaperenderer.setColor(Color.BLACK);
+                }
+                
+                shaperenderer.rect(x * 32, y * 32, 32, 32);
+            }
+        }
+        shaperenderer.end();
+        fps.log();
+    }
+
+    private void renderPlayer() {
+        shaperenderer.setColor(Color.GREEN);
+        shaperenderer.rect(map.player.pos.x, map.player.pos.y, map.player.bounds.width, map.player.bounds.height);
+
+    }
+
+    public void dispose() {
+        shaperenderer.dispose();
+    }
+}
