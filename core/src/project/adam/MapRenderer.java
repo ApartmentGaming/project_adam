@@ -47,15 +47,12 @@ public class MapRenderer {
         {
             f.render(shaperenderer);
         }
+        
+        map.player.render(shaperenderer);
         shaperenderer.end();
         fps.log();
     }
 
-    private void renderPlayer() {
-        shaperenderer.setColor(Color.GREEN);
-        shaperenderer.rect(map.player.pos.x, map.player.pos.y, map.player.bounds.width, map.player.bounds.height);
-
-    }
 
     public void dispose() {
         shaperenderer.dispose();

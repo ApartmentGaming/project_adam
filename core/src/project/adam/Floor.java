@@ -14,17 +14,13 @@ import com.badlogic.gdx.math.Rectangle;
 public class Floor{
 
     boolean touching;
-    float x = 0;
-    float y = 0;
-    float width = 32;
-    float height = 32;
-    Rectangle bounds;
+    Rectangle bounds = new Rectangle();
     public Floor(float a, float b, float w, float h)
     {
-        x = a;
-        y = b;
-        width = w;
-        height = h;
+        bounds.x = a;
+        bounds.y = b;
+        bounds.width = w;
+        bounds.height = h;
     }
     
     
@@ -38,6 +34,6 @@ public class Floor{
         {
             sr.setColor(Color.BLACK);
         }
-        sr.rect(x, y, width, height);
+        sr.rect(bounds.x, bounds.y, bounds.width, bounds.height);
     }
 }

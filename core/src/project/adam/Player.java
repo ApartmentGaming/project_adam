@@ -7,6 +7,8 @@ package project.adam;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
+import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 
@@ -53,25 +55,30 @@ public class Player {
     public void update(float deltaTime) {
         processKeys();
 
-        accel.y = -GRAVITY;
-        accel.scl(deltaTime);
-        vel.add(accel.x, accel.y);
-        if (accel.x == 0) {
-            vel.x *= DAMP;
-        }
-        if (vel.x > MAX_VEL) {
-            vel.x = MAX_VEL;
-        }
-        if (vel.x < -MAX_VEL) {
-            vel.x = -MAX_VEL;
-        }
-        vel.scl(deltaTime);
-       // tryMove();
-        vel.scl(1.0f / deltaTime);
+//        accel.y = -GRAVITY;
+//        accel.scl(deltaTime);
+//        vel.add(accel.x, accel.y);
+//        if (accel.x == 0) {
+//            vel.x *= DAMP;
+//        }
+//        if (vel.x > MAX_VEL) {
+//            vel.x = MAX_VEL;
+//        }
+//        if (vel.x < -MAX_VEL) {
+//            vel.x = -MAX_VEL;
+//        }
+//        vel.scl(deltaTime);
+//       // tryMove();
+//        vel.scl(1.0f / deltaTime);
 
         stateTime += deltaTime;
     }
 
+    public void render(ShapeRenderer sr)
+    {
+        sr.setColor(Color.YELLOW);
+        sr.rect(bounds.x, bounds.y, bounds.width, bounds.height);
+    }
     private void processKeys() {
 
         float x0 = (Gdx.input.getX(0) / (float) Gdx.graphics.getWidth()) * 480;
