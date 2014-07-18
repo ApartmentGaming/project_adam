@@ -8,20 +8,36 @@ package project.adam;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.math.Rectangle;
 
 
-public class Floor extends Actor{
+public class Floor{
 
-    public Floor(int a, int b)
+    boolean touching;
+    float x = 0;
+    float y = 0;
+    float width = 32;
+    float height = 32;
+    Rectangle bounds;
+    public Floor(float a, float b, float w, float h)
     {
-        super(a,b);
+        x = a;
+        y = b;
+        width = w;
+        height = h;
     }
     
     
-    @Override
-    public void simple_render(ShapeRenderer sr)
+    public void render(ShapeRenderer sr)
     {
+        if(touching)
+        {
         sr.setColor(Color.GREEN);
-        super.simple_render(sr);
+        }
+        else
+        {
+            sr.setColor(Color.BLACK);
+        }
+        sr.rect(x, y, width, height);
     }
 }

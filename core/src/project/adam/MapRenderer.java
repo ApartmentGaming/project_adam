@@ -43,21 +43,9 @@ public class MapRenderer {
         shaperenderer.begin(ShapeType.Filled);
         //renderPlayer();
         
-        for(int x = 0; x < map.tiles.length; x++)
+        for(Floor f :map.floors)
         {
-            for(int y = 0; y < map.tiles[0].length; y++)
-            {
-                if(map.tiles[x][y] == 0)
-                {
-                    shaperenderer.setColor(Color.WHITE);
-                }
-                else
-                {
-                    shaperenderer.setColor(Color.BLACK);
-                }
-                
-                shaperenderer.rect(x * 32, y * 32, 32, 32);
-            }
+            f.render(shaperenderer);
         }
         shaperenderer.end();
         fps.log();
