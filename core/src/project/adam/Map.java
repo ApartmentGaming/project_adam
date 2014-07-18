@@ -49,7 +49,20 @@ public class Map {
    
 
     public void update(float deltaTime) {
-       // player.update(deltaTime);
-
+          player.update(deltaTime);
+          handleCollisions();
+    }
+    
+    public void handleCollisions()
+    {
+        for(Floor f: floors)
+        {
+            f.touching = false;
+            if(f.bounds.overlaps(player.bounds))
+            {
+                f.touching = true;
+                player.floor_collision(f);
+            }
+        }
     }
 }
