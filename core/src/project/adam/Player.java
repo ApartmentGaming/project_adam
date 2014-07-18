@@ -48,12 +48,7 @@ public class Player {
         this.map = map;
         pos.x = x;
         pos.y = y;
-        bounds.set(x,y,32,64);
-        feet_bounds.set(x+8,y,16,16);
-        left_bounds.set(x,y+16,16,32);
-        right_bounds.set(x+16,y+16,16,32);
-        head_bounds.set(x+8,y+bounds.height-16,16,16);
-        
+        handle_bounds();
         state = IDLE;
         stateTime = 0;
     }
@@ -64,18 +59,14 @@ public class Player {
         vel.scl(deltaTime);
         vel.scl(1.0f / deltaTime);
 
-        
+
         if(state != IDLE)
             pos.x = pos.x + dir;
         
-        //pos.y = pos.y + vel.y;
+        pos.y = pos.y - 10;
         
         stateTime += deltaTime;
-        bounds.set(pos.x,pos.y,32,64);
-        feet_bounds.set(pos.x+8,pos.y,16,16);
-        left_bounds.set(pos.x,pos.y+16,16,32);
-        right_bounds.set(pos.x+16,pos.y+16,16,32);
-        head_bounds.set(pos.x+8,pos.y+bounds.height-16,16,16);
+        handle_bounds();
         
     }
 
@@ -93,31 +84,60 @@ public class Player {
     }
     private void processKeys() {
 
-//        if ((Gdx.input.isKeyPressed(Keys.W)) && state != JUMP) {
-//            state = JUMP;
-//            vel.y = JUMP_VELOCITY;
-//            grounded = false;
-//        }
+        if ((Gdx.input.isKeyPressed(Keys.W)) && state != JUMP) {
+            pos.y = pos.y + 100;
+            grounded = false;
+        }
 
         if (Gdx.input.isKeyPressed(Keys.A)) {
-            if (state != JUMP) {
+           
                 state = RUN;
-            }
+            
             dir = LEFT;
         } else if (Gdx.input.isKeyPressed(Keys.D)) {
-            if (state != JUMP) {
+          
                 state = RUN;
-            }
+            
             dir = RIGHT;
         } else {
-            if (state != JUMP) {
+
                 state = IDLE;
-            }
+            
         }
+    }
+    
+    public void handle_bounds()
+    {
+        bounds.set(pos.x,pos.y,32,64);
+        feet_bounds.set(pos.x+8,pos.y,16,16);
+        left_bounds.set(pos.x,pos.y+16,16,32);
+        right_bounds.set(pos.x+16,pos.y+16,16,32);
+        head_bounds.set(pos.x+8,pos.y+bounds.height-16,16,16);
     }
 
     public void floor_collision(Floor f)
     {
+        if(f.bounds.overlaps(feet_bounds))
+        {
+            pos.y = f.bounds.y + f.bounds.height;
+            grounded = true;
+
+        }
+        if(f.bounds.overlaps(head_bounds))
+        {
+            pos.y = f.bounds.y - bounds.height;
+        }
+                
+        if(f.bounds.overlaps(left_bounds))
+        {
+            pos.x = f.bounds.x + f.bounds.width;
+        }
+        if(f.bounds.overlaps(right_bounds))
+        {
+            pos.x = f.bounds.x - bounds.width;
+        }
+        
+        handle_bounds();
         
     }
 }
