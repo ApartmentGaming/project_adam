@@ -56,20 +56,31 @@ public class Player {
     public void update(float deltaTime) {
         processKeys();
 
-        vel.scl(deltaTime);
-        vel.scl(1.0f / deltaTime);
-
-
-        if(state != IDLE)
-            pos.x = pos.x + dir;
-        
-        pos.y = pos.y - 10;
+        tryMove();
         
         stateTime += deltaTime;
-        handle_bounds();
+        
         
     }
 
+    public void tryMove()
+    {
+        if(state != IDLE)
+            pos.x = pos.x + dir;
+        if(!grounded)
+            pos.y = pos.y - 5;
+        grounded = false;
+        handle_bounds();
+        for(Floor f: map.floors)
+        {
+            f.touching = false;
+            if(f.bounds.overlaps(bounds))
+            {
+                floor_collision(f);
+            }
+        }
+        handle_bounds();
+    }
     public void render(ShapeRenderer sr)
     {
 
@@ -84,7 +95,7 @@ public class Player {
     }
     private void processKeys() {
 
-        if ((Gdx.input.isKeyPressed(Keys.W)) && state != JUMP) {
+        if ((Gdx.input.isKeyPressed(Keys.W)) && grounded) {
             pos.y = pos.y + 100;
             grounded = false;
         }
@@ -120,24 +131,30 @@ public class Player {
         if(f.bounds.overlaps(feet_bounds))
         {
             pos.y = f.bounds.y + f.bounds.height;
+            f.touching = true;
             grounded = true;
 
         }
         if(f.bounds.overlaps(head_bounds))
         {
             pos.y = f.bounds.y - bounds.height;
+            f.touching = true;
+
         }
                 
         if(f.bounds.overlaps(left_bounds))
         {
             pos.x = f.bounds.x + f.bounds.width;
+            f.touching = true;
+
         }
         if(f.bounds.overlaps(right_bounds))
         {
             pos.x = f.bounds.x - bounds.width;
+            f.touching = true;
+    
         }
         
-        handle_bounds();
         
     }
 }
